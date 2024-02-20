@@ -55,17 +55,42 @@
        result
        (reduced result)))))
 
-(def default-freqt-config {:min-support 1
-                           :verbose false
-                           :min-node-size 1
-                           :max-node-size int-max
-                           :output-format :normal
-                           :support-mode :normal
-                           :output-locations false
-                           :timeout-seconds 20.0
-                           :max-result-count nil
-                           :costfn default-freqt-cost
-                           :reportfn default-report})
+(def default-freqt-config
+  {;; Minimum support required to include the subtree in the result.
+   :min-support 1
+
+   ;; Whether or not to display some extra info while running the algorithm.
+   :verbose false
+
+   ;; Minimum subtree size to include it in the result.
+   :min-node-size 1
+
+   ;; Maximum subtree size to include it in the result.
+   :max-node-size int-max
+
+   ;; How support is counted. `:normal` means that we count the number
+   ;; of trees in the forest where it occurs at least once. `:weighted`
+   ;; means that we count all occurrences.
+   :support-mode :normal
+
+   ;; Stop the algoritm after this many seconds.
+   :timeout-seconds 20.0
+
+   ;; Stop the algoritm when the number of results is this number.
+   :max-result-count nil
+
+   ;; Cost associated with each subtree being explored. In every iteration,
+   ;; the algorithm picks the tree with the lowest cost. Therefore, this cost
+   ;; can be used to guide the exploration.
+   :costfn default-freqt-cost
+
+   ;; The report function is used to accumulate the result and has the
+   ;; following arities:
+   ;; * 0: Return an empty result data structure.
+   ;; * 1: Called on the result before it is returned to finalize it.
+   ;; * 2: Called on the arguments `context` and `subtree` with `subtree` being
+   ;;      the subtree considered, to accumulate the result.
+   :reportfn default-report})
 
 (defn sexpr? [x]
   (and (sequential? x) (seq x)))
@@ -423,5 +448,15 @@
              (recur (push-candidates queue candidates context)
                     (report result context candidate)))))))))
 
-(defn normalize-results [x]
-  (set (:subtrees x)))
+
+
+(comment
+  
+  (freqt
+   '[(d (a (b (b) (d)) (c (d (b) (d)))) (a))
+     (d (c (a (a (c)) (b) (b)) (d (b))) (c))]
+   {:min-support 3, :support-mode :weighted})
+;; => {:status :completed, :subtrees [{:support 6, :weighted-support 6, :subtree-size 1, :subtree [b]} {:support 6, :weighted-support 6, :subtree-size 1, :subtree [d]} {:support 4, :weighted-support 4, :subtree-size 1, :subtree [c]} {:support 4, :weighted-support 4, :subtree-size 1, :subtree [a]} {:support 3, :weighted-support 3, :subtree-size 2, :subtree [a [b]]}]}
+
+
+  )

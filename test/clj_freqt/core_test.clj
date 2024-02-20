@@ -1,6 +1,13 @@
 (ns clj-freqt.core-test
-  (:require [clojure.test :refer :all]
-            [clj-freqt.core :refer :all]))
+  (:require [clojure.test :refer [deftest is]]
+            [clj-freqt.core :refer [freqt
+                                    freq1
+                                    sexprs->transactions
+                                    support
+                                    default-freqt-config]]))
+
+(defn normalize-results [x]
+  (set (:subtrees x)))
 
 (deftest test-my-freqt-impl
   (is (= '#{{:support 1,
