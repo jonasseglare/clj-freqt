@@ -145,3 +145,43 @@
   (is (= 1 (support {:depth 0, :support 0, :locations [[0 0] [0 0]]} default-freqt-config)))
   (is (= 2 (support {:depth 0, :support 0, :locations [[0 0] [0 0]]}
                     (assoc default-freqt-config :support-mode :weighted)))))
+
+(deftest test-with-custom-datastructures-as-labels
+  (is (= #{{:support 1,
+            :weighted-support 1,
+            :subtree-size 2,
+            :subtree [{:sym :c} [{:sym :b}]]}
+           {:support 2,
+            :weighted-support 2,
+            :subtree-size 1,
+            :subtree [{:sym :c}]}
+           {:support 1,
+            :weighted-support 1,
+            :subtree-size 3,
+            :subtree [{:sym :a} [{:sym :b} [{:sym :c}]]]}
+           {:support 1,
+            :weighted-support 1,
+            :subtree-size 3,
+            :subtree [{:sym :a} [{:sym :c} [{:sym :b}]]]}
+           {:support 1,
+            :weighted-support 1,
+            :subtree-size 2,
+            :subtree [{:sym :a} [{:sym :b}]]}
+           {:support 2,
+            :weighted-support 2,
+            :subtree-size 1,
+            :subtree [{:sym :a}]}
+           {:support 2,
+            :weighted-support 2,
+            :subtree-size 1,
+            :subtree [{:sym :b}]}
+           {:support 1,
+            :weighted-support 1,
+            :subtree-size 2,
+            :subtree [{:sym :b} [{:sym :c}]]}
+           {:support 1,
+            :weighted-support 1,
+            :subtree-size 2,
+            :subtree [{:sym :a} [{:sym :c}]]}}
+         (normalize-results (freqt '[({:sym :a} ({:sym :b} ({:sym :c})))
+                                     ({:sym :a} ({:sym :c} ({:sym :b})))])))))
