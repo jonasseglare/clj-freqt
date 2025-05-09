@@ -81,8 +81,8 @@ The algorithm can be configured using the second argument, see `default-freqt-co
    ;; * 1: Called on the result before it is returned to finalize it.
    ;; * 2: Called on the arguments `result`, `context` and `subtree` where
    ;;      - `result` is the result being accumulated,
-   ;;      - `subtree` is the subtree to be accumulated and
-   ;;      - `context` is the freqt context.
+   ;;      - `context` is the freqt context and
+   ;;      - `subtree` is the subtree to be accumulated.
    :reportfn default-report})
 ```
 

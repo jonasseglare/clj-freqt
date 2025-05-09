@@ -20,6 +20,8 @@
                                      threshold
                                      (+ now period-ns))))))))))
 
+(set! *warn-on-reflection* true)
+
 (def int-max Integer/MAX_VALUE)
 
 (defn default-freqt-cost [_projected _config]
@@ -90,8 +92,8 @@
    ;; * 1: Called on the result before it is returned to finalize it.
    ;; * 2: Called on the arguments `result`, `context` and `subtree` where
    ;;      - `result` is the result being accumulated,
-   ;;      - `subtree` is the subtree to be accumulated and
-   ;;      - `context` is the freqt context.
+   ;;      - `context` is the freqt context and
+   ;;      - `subtree` is the subtree to be accumulated.
    :reportfn default-report})
 
 (defn sexpr? [x]
