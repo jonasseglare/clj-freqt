@@ -73,6 +73,14 @@ The algorithm can be configured using the second argument, see `default-freqt-co
    :reportfn default-report})
 ```
 
+## Testing
+
+Tests can be run with
+
+```
+clj -X:test
+```
+
 ## License
 
 Copyright 2024 Jonas Östlund
