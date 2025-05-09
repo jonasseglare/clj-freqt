@@ -39,8 +39,9 @@ It outputs a list of all subtrees that satisfy some criteria and the support of 
  {:min-support 3, :support-mode :weighted})
 ;; => {:status :completed, :subtrees [{:support 6, :weighted-support 6, :subtree-size 1, :subtree [b]} {:support 6, :weighted-support 6, :subtree-size 1, :subtree [d]} {:support 4, :weighted-support 4, :subtree-size 1, :subtree [c]} {:support 4, :weighted-support 4, :subtree-size 1, :subtree [a]} {:support 3, :weighted-support 3, :subtree-size 2, :subtree [a [b]]}]}
 ```
+Note that the algorithm expects as input *labeled ordered trees*: Every child of an s-expression must have a label and the order of the children matters.
 
-The **support** of a subtree is the number of times it occurs. By normal support, we count the number of trees in the forest where the subtree occurs at least once. By weighted support, we count all occurrences in all trees.
+The *support* of a subtree is the number of times it occurs. By normal support, we count the number of trees in the forest where the subtree occurs at least once. By weighted support, we count all occurrences in all trees.
 
 The algorithm can be configured using the second argument, see `default-freqt-config` for the default configuration:
 
