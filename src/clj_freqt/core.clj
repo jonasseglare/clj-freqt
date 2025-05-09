@@ -412,8 +412,10 @@
          verbose (:verbose config)
          report (:reportfn config)
 
-         ;; TODO: Make it possible to skip normalization, so
-         ;; that we can do it once instead.
+         ;; TODO: Make normalizaton optional, so that
+         ;; the user of this function can do the normalization
+         ;; on their data. That might be useful if they are
+         ;; calling this function repetitively.
          [expr-map sexprs] (normalize-sexprs sexprs0)
          
          transactions (sexprs->transactions sexprs)
