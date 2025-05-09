@@ -1,6 +1,6 @@
 # clj-freqt
 
-A Clojure implementation of the **FREQT** algoritm for [Frequent Subtree Mining](https://en.wikipedia.org/wiki/Frequent_subtree_mining) published in the following paper:
+A Clojure library implementing the **FREQT** algoritm for [Frequent Subtree Mining](https://en.wikipedia.org/wiki/Frequent_subtree_mining) published in the following paper:
 
 [Asai, Tatsuya, et al. "Efficient substructure discovery from large semi-structured data." IEICE TRANSACTIONS on Information and Systems 87.12 (2004): 2754-2763.](https://epubs.siam.org/doi/pdf/10.1137/1.9781611972726.10)
 
@@ -16,17 +16,27 @@ The implementation is based on this [C++ implementation of FREQT](http://chasen.
 
 This code can be useful when implementing tools that automatically refactor code in order to discover repetitive sub structures that can be factored out.
 
+## Library coordinates
+
+Include
+```
+io.github.jonasseglare/clj-freqt {:git/sha "931a6e44d2dfe2b84f3695ca048c6f331520e9d9"}
+```
+in your `deps.edn` in order to use clj-freqt as a library.
+
 ## Usage
 
-This program takes as input the first argument being a forest of trees. Every tree is represented as an s-expression with the label of every node in the tree being the first element in the s-expression.
+The `clj-freqt.core/freqt` function runs the freqt algorithm to find frequent subtrees. The first argument is a forest of trees, where every tree is represented as an s-expression. The first element in the s-expression is the *label* of the node and can be any value. The remaining elements are its children.
 
 It outputs a list of all subtrees that satisfy some criteria and the support of each subtree:
 
 ```clojure
-  (freqt
-   '[(d (a (b (b) (d)) (c (d (b) (d)))) (a))
-     (d (c (a (a (c)) (b) (b)) (d (b))) (c))]
-   {:min-support 3, :support-mode :weighted})
+(require '[clj-freqt.core :refer [freqt]])
+
+(freqt
+ '[(d (a (b (b) (d)) (c (d (b) (d)))) (a))
+   (d (c (a (a (c)) (b) (b)) (d (b))) (c))]
+ {:min-support 3, :support-mode :weighted})
 ;; => {:status :completed, :subtrees [{:support 6, :weighted-support 6, :subtree-size 1, :subtree [b]} {:support 6, :weighted-support 6, :subtree-size 1, :subtree [d]} {:support 4, :weighted-support 4, :subtree-size 1, :subtree [c]} {:support 4, :weighted-support 4, :subtree-size 1, :subtree [a]} {:support 3, :weighted-support 3, :subtree-size 2, :subtree [a [b]]}]}
 ```
 
