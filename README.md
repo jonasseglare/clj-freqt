@@ -4,11 +4,17 @@ A Clojure implementation of the **FREQT** algoritm for [Frequent Subtree Mining]
 
 [Asai, Tatsuya, et al. "Efficient substructure discovery from large semi-structured data." IEICE TRANSACTIONS on Information and Systems 87.12 (2004): 2754-2763.](https://epubs.siam.org/doi/pdf/10.1137/1.9781611972726.10)
 
-The implementation is based on this [C++ implementaion of FREQT](http://chasen.org/~taku/software/freqt/) but has been extended in the following ways:
+In short, this library can be used to find the most repetitive subtrees in a forest, including subtrees whose leaves can be inner nodes in the trees of the input forest.
+
+The implementation is based on this [C++ implementation of FREQT](http://chasen.org/~taku/software/freqt/) but has been extended in the following ways:
 
 * Every subtree gets assigned a cost.
 * Every iteration of the algorithm picks the next subtree with the lowest cost from a priority queue.
 * It is possible to customize how the resulting set of subtrees should be accumulated.
+
+## Motivation
+
+This code can be useful when implementing tools that automatically refactor code in order to discover repetitive sub structures that can be factored out.
 
 ## Usage
 
