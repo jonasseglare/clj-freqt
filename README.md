@@ -26,7 +26,7 @@ in your `deps.edn` in order to use clj-freqt as a library.
 
 ## Usage
 
-The `clj-freqt.core/freqt` function runs the freqt algorithm to find frequent subtrees. The first argument is a forest of trees, where every tree is represented as an s-expression. The first element in the s-expression is the *label* of the node and can be any value. The remaining elements are its children.
+The `clj-freqt.core/freqt` function runs the freqt algorithm to find frequent subtrees. The first argument is a forest of *labeled ordered trees*, where every tree is represented as an s-expression. The first element in the s-expression is the *label* of the node and can be any value. The remaining elements are its children and their order matters.
 
 It outputs a list of all subtrees that satisfy some criteria and the support of each subtree:
 
@@ -39,9 +39,9 @@ It outputs a list of all subtrees that satisfy some criteria and the support of 
  {:min-support 3, :support-mode :weighted})
 ;; => {:status :completed, :subtrees [{:support 6, :weighted-support 6, :subtree-size 1, :subtree [b]} {:support 6, :weighted-support 6, :subtree-size 1, :subtree [d]} {:support 4, :weighted-support 4, :subtree-size 1, :subtree [c]} {:support 4, :weighted-support 4, :subtree-size 1, :subtree [a]} {:support 3, :weighted-support 3, :subtree-size 2, :subtree [a [b]]}]}
 ```
-Note that the algorithm expects as input *labeled ordered trees*: Every child of an s-expression must have a label and the order of the children matters.
+If your data is not in the form of *labeled ordered trees* represented by s-expressions, you will have to transform your data to that form before running the algorithm. And then transform back your results.
 
-The *support* of a subtree is the number of times it occurs. By normal support, we count the number of trees in the forest where the subtree occurs at least once. By weighted support, we count all occurrences in all trees.
+The *support* of a subtree is the number of times it occurs. By `:normal` support, we count the number of trees in the forest where the subtree occurs at least once. By `:weighted` support, we count all occurrences in all trees.
 
 The algorithm can be configured using the second argument, see `default-freqt-config` for the default configuration:
 
@@ -79,8 +79,10 @@ The algorithm can be configured using the second argument, see `default-freqt-co
    ;; following arities:
    ;; * 0: Return an empty result data structure.
    ;; * 1: Called on the result before it is returned to finalize it.
-   ;; * 2: Called on the arguments `context` and `subtree` with `subtree` being
-   ;;      the subtree considered, to accumulate the result.
+   ;; * 2: Called on the arguments `result`, `context` and `subtree` where
+   ;;      - `result` is the result being accumulated,
+   ;;      - `subtree` is the subtree to be accumulated and
+   ;;      - `context` is the freqt context.
    :reportfn default-report})
 ```
 

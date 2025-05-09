@@ -88,8 +88,10 @@
    ;; following arities:
    ;; * 0: Return an empty result data structure.
    ;; * 1: Called on the result before it is returned to finalize it.
-   ;; * 2: Called on the arguments `context` and `subtree` with `subtree` being
-   ;;      the subtree considered, to accumulate the result.
+   ;; * 2: Called on the arguments `result`, `context` and `subtree` where
+   ;;      - `result` is the result being accumulated,
+   ;;      - `subtree` is the subtree to be accumulated and
+   ;;      - `context` is the freqt context.
    :reportfn default-report})
 
 (defn sexpr? [x]
